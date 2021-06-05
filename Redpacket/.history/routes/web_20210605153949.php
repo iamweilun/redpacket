@@ -17,6 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function(){
-    return  \App\Models\RedPacket::all();
+Route::get('/1232', function () {
+    return App\Post::all();
 });

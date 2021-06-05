@@ -14,9 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
 });
 
-Route::get('/test', function(){
-    return  \App\Models\RedPacket::all();
+Route::get('/user/{id}', function ($id) {
+    return 'User '.$id;
 });

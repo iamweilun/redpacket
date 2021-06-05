@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\RedPacket;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function(){
-    return  \App\Models\RedPacket::all();
+Route::get('/RedPacket', function () {
+    $post = new App\RedPacket;
+    return $post::all();
 });

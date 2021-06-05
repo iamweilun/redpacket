@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
 });
 
-Route::get('/test', function(){
-    return  \App\Models\RedPacket::all();
-});
+Route::get('Admin/Home', ['as' => 'Admin.Home.GetHomePage', 'uses' => 'Admin\AdminHomeController@GetHomePage']);

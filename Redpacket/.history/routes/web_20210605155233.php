@@ -18,5 +18,5 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function(){
-    return  \App\Models\RedPacket::all();
+    return  \App\Models\red_packet::all();
 });
