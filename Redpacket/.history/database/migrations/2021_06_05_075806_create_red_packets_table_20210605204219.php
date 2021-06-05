@@ -17,7 +17,6 @@ class CreateRedPacketsTable extends Migration
             $table->id();
             $table->integer('user_id')->nullable(false);
             $table->float('amount', 8, 2)->default('0');
-            $table->integer('total_quantity')->default('0');
             $table->boolean('random')->default('0')->comment('0 : no random , 1 : random');
 
             $table->timestamps();

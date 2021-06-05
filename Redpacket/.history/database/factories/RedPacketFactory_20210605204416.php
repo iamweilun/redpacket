@@ -25,9 +25,7 @@ class RedPacketFactory extends Factory
         
         return [
             'user_id' => User::factory(),
-            'amount' => rand (0,100),
-            'random' => rand (0,1),
-            'total_quantity' => rand (0,100),
+            'amount' => rand (0.1,100),
         ];
 
     }

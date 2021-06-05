@@ -2,18 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\RedPacket;
-use App\Models\User;
+use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RedPacketFactory extends Factory
+class TransactionFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = RedPacket::class;
+    protected $model = Transaction::class;
 
     /**
      * Define the model's default state.
@@ -22,13 +21,8 @@ class RedPacketFactory extends Factory
      */
     public function definition()
     {
-        
         return [
-            'user_id' => User::factory(),
-            'amount' => rand (0,100),
-            'random' => rand (0,1),
-            'total_quantity' => rand (0,100),
+            //
         ];
-
     }
 }

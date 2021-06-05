@@ -16,9 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->float('balance', 8, 2)->default('0');
-            $table->integer('send_quantity')->default('0')->comment('Send red packet quantity');
-            $table->integer('receive_quantity')->default('0')->comment('receive red packet quantity');
+            $table->float('amount', 8, 2)->default('0');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
