@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RedPacketController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('redpacket', 'RedPacketController');
-Route::get('/redpacket', [RedPacketController::class, 'index']);
-Route::post('/sendredpacket', [RedPacketController::class, 'store']);
+
+Route::resource('photos', PhotoController::class)->names([
+    'create' => 'photos.build'
+]);

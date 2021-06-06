@@ -20,4 +20,3 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResource('redpacket', 'RedPacketController');
 Route::get('/redpacket', [RedPacketController::class, 'index']);
-Route::post('/sendredpacket', [RedPacketController::class, 'store']);
