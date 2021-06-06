@@ -153,7 +153,7 @@ class RedPacketController extends Controller
         }
 
         if($user->send_quantity < $user->receive_quantity ){
-            return response(['error' => "Receive quantity more than send quantity", 'Error'], 200);
+            return response(['error' => "Can't take your own red packet", 'Error'], 200);
         }
 
 
@@ -162,7 +162,7 @@ class RedPacketController extends Controller
 
         $amount = number_format((float)$redPacket->amount, 2, '.', '');
         if( $redPacket->total_quantity > 1) {
-            $amount = !empty($redPacket->random) ? $this->frand(0.10,$redPacket->amount,2) : round($redPacket->amount / $redPacket->total_quantity, 2);
+            $amount = !empty($redPacket->random) ? number_format((float)rand(0.10,$redPacket->amount), 2, '.', '') : number_format((float)$redPacket->amount / $redPacket->total_quantity, 2, '.', '');
         }
 
         $user_arr = !empty(json_decode($redPacket->user_get,true)) ? json_decode($redPacket->user_get,true):[];
@@ -206,10 +206,5 @@ class RedPacketController extends Controller
     public function destroy(RedPacket $redPacket)
     {
         //
-    }
-
-    public function frand($min, $max, $decimals = 0) {
-        $scale = pow(10, $decimals);
-        return mt_rand($min * $scale, $max * $scale) / $scale;
     }
 }

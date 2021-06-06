@@ -5,16 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RedPacket extends Model
+class Transaction extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'user_id_send',
+        'user_id_receive',
+        'red_packet_id',
         'amount',
-        'total_quantity',
-        'original_quantity',
-        'random'
+        'balance',
+        'after_balance',
+        'status',
     ];
-
 }

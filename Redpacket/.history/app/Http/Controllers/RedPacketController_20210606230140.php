@@ -88,7 +88,6 @@ class RedPacketController extends Controller
         $Transaction = Transaction::create($transactionData);
 
         $user->balance -= $data['amount'];
-        $user->send_quantity += 1;
         $user->save();
 
         return response([ 'Data' => new RedPacketResource($RedPacket), 'message' => 'Create Redpacket successfully'], 200);
@@ -148,21 +147,9 @@ class RedPacketController extends Controller
             return response(['message' => "Redpacket is empty"], 200);
         }
 
-        if($redPacket->user_id == $user->id){
-            return response(['error' => "Can't take your own red packet", 'Error'], 200);
-        }
-
-        if($user->send_quantity < $user->receive_quantity ){
-            return response(['error' => "Receive quantity more than send quantity", 'Error'], 200);
-        }
-
-
-
-
-
         $amount = number_format((float)$redPacket->amount, 2, '.', '');
         if( $redPacket->total_quantity > 1) {
-            $amount = !empty($redPacket->random) ? $this->frand(0.10,$redPacket->amount,2) : round($redPacket->amount / $redPacket->total_quantity, 2);
+            $amount = !empty($redPacket->random) ? number_format((float)rand(0.10,$redPacket->amount), 2, '.', '') : number_format((float)$redPacket->amount / $redPacket->total_quantity, 2, '.', '');
         }
 
         $user_arr = !empty(json_decode($redPacket->user_get,true)) ? json_decode($redPacket->user_get,true):[];
@@ -191,7 +178,6 @@ class RedPacketController extends Controller
         $Transaction = Transaction::create($transactionData);
 
         $user->balance += $amount;
-        $user->receive_quantity += 1;
         $user->save();
         
         return response([ 'message' => "User ".$user->id." receive ".$amount], 200);
@@ -206,10 +192,5 @@ class RedPacketController extends Controller
     public function destroy(RedPacket $redPacket)
     {
         //
-    }
-
-    public function frand($min, $max, $decimals = 0) {
-        $scale = pow(10, $decimals);
-        return mt_rand($min * $scale, $max * $scale) / $scale;
     }
 }

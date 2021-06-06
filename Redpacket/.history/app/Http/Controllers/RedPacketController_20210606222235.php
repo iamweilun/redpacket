@@ -67,7 +67,6 @@ class RedPacketController extends Controller
             'user_id' => $user->id,
             'amount' => $data['amount'],
             'total_quantity' => $data['quantity'],
-            'original_quantity' => $data['quantity'],
             'random' => $data['random'],
         ];
 
@@ -78,7 +77,8 @@ class RedPacketController extends Controller
 
         $transactionData = [
             'user_id_send' => $user->id,
-            'red_packet_id' => $RedPacket->id,
+            'red_packet_id ' => $RedPacket->id,
+
             'amount' => $data['amount'],
             'balance' => $user->balance,
             'after_balance' => $user->balance - $data['amount'],
@@ -88,7 +88,6 @@ class RedPacketController extends Controller
         $Transaction = Transaction::create($transactionData);
 
         $user->balance -= $data['amount'];
-        $user->send_quantity += 1;
         $user->save();
 
         return response([ 'Data' => new RedPacketResource($RedPacket), 'message' => 'Create Redpacket successfully'], 200);
@@ -144,25 +143,14 @@ class RedPacketController extends Controller
             return response(['error' => "Invalid User or Redpacket", 'Error'], 200);
         }
 
-        if( $redPacket->amount <= 0 || $redPacket->total_quantity <= 0){
+        if( $redPacket->amount <= 0 ){
             return response(['message' => "Redpacket is empty"], 200);
         }
 
-        if($redPacket->user_id == $user->id){
-            return response(['error' => "Can't take your own red packet", 'Error'], 200);
-        }
-
-        if($user->send_quantity < $user->receive_quantity ){
-            return response(['error' => "Receive quantity more than send quantity", 'Error'], 200);
-        }
-
-
-
-
-
-        $amount = number_format((float)$redPacket->amount, 2, '.', '');
-        if( $redPacket->total_quantity > 1) {
-            $amount = !empty($redPacket->random) ? $this->frand(0.10,$redPacket->amount,2) : round($redPacket->amount / $redPacket->total_quantity, 2);
+        if( $redPacket->random ){
+            $amount = number_format(rand(0.1,$redPacket->amount), 2, '.', '');
+        } else {
+            $amount = number_format($redPacket->amount / $redPacket->total_quantity, 2, '.', '');
         }
 
         $user_arr = !empty(json_decode($redPacket->user_get,true)) ? json_decode($redPacket->user_get,true):[];
@@ -177,21 +165,7 @@ class RedPacketController extends Controller
         $redPacket->user_get = json_encode($user_arr,true);
         $redPacket->save();
 
-        $transactionData = [
-            'user_id_send' => $redPacket->user_id,
-            'user_id_receive' => $user->id,
-            'red_packet_id' => $redPacket->id,
-            'amount' => $amount,
-            'balance' => $user->balance,
-            'after_balance' => $user->balance + $amount,
-            'status' => 1,
-            'action' => 1,
-        ];
-
-        $Transaction = Transaction::create($transactionData);
-
         $user->balance += $amount;
-        $user->receive_quantity += 1;
         $user->save();
         
         return response([ 'message' => "User ".$user->id." receive ".$amount], 200);
@@ -206,10 +180,5 @@ class RedPacketController extends Controller
     public function destroy(RedPacket $redPacket)
     {
         //
-    }
-
-    public function frand($min, $max, $decimals = 0) {
-        $scale = pow(10, $decimals);
-        return mt_rand($min * $scale, $max * $scale) / $scale;
     }
 }

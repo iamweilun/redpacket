@@ -25,8 +25,8 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'balance' => rand (10,100),
-            'send_quantity' => 1,
-            'receive_quantity' => 0, 
+            'send_quantity' => rand (10,100),
+            'receive_quantity' => rand (1,10), 
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

@@ -17,7 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->id();
 
             $table->integer('user_id_send')->nullable(false);
-            $table->integer('user_id_receive')->nullable();
+            $table->integer('user_id_receive')->nullable(false);
             $table->integer('red_packet_id')->nullable(false);
             $table->float('amount', 8, 2)->default('0');
             $table->float('balance', 8, 2)->default('0');

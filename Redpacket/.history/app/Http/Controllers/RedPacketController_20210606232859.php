@@ -162,7 +162,7 @@ class RedPacketController extends Controller
 
         $amount = number_format((float)$redPacket->amount, 2, '.', '');
         if( $redPacket->total_quantity > 1) {
-            $amount = !empty($redPacket->random) ? $this->frand(0.10,$redPacket->amount,2) : round($redPacket->amount / $redPacket->total_quantity, 2);
+            $amount = !empty($redPacket->random) ? number_format((float)rand(0.10,$redPacket->amount), 2, '.', '') : number_format((float)$redPacket->amount / $redPacket->total_quantity, 2, '.', '');
         }
 
         $user_arr = !empty(json_decode($redPacket->user_get,true)) ? json_decode($redPacket->user_get,true):[];
