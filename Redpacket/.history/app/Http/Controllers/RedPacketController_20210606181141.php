@@ -139,7 +139,7 @@ class RedPacketController extends Controller
 
         $redPacket->amount = $redPacket->amount - $amount;
         $redPacket->total_quantity = $redPacket->total_quantity - 1;
-        $redPacket->user_get = json_encode($user_arr,true);
+        $redPacket->user_get = json_decode($user_arr,true);
         $redPacket->save();
         
         return response([ 'message' => "User ".$user->id." receive ".$amount], 200);

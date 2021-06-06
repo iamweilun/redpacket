@@ -117,32 +117,10 @@ class RedPacketController extends Controller
         $redPacket = RedPacket::find($data['redpacket']);
 
         if(empty($user)|| empty($redPacket)){
-            return response(['error' => "Invalid User or Redpacket", 'Error'], 200);
+            return response(['error' => "Invalid User or Redpacket", 'Error']);
         }
 
-        if( $redPacket->amount <= 0 ){
-            return response(['message' => "Redpacket is empty"], 200);
-        }
-
-        if( $redPacket->random ){
-            $amount = number_format(rand(0.1,$redPacket->amount), 2, '.', '');
-        } else {
-            $amount = number_format($redPacket->amount / $redPacket->total_quantity, 2, '.', '');
-        }
-
-        $user_arr = !empty(json_decode($redPacket->user_get,true)) ? json_decode($redPacket->user_get,true):[];
-        if(in_array($user->id, $user_arr)) {
-            return response([ 'message' => "User ".$user->id." have taken this red packet"], 200); 
-        } else {
-            array_push($user_arr,$user->id);
-        }
-
-        $redPacket->amount = $redPacket->amount - $amount;
-        $redPacket->total_quantity = $redPacket->total_quantity - 1;
-        $redPacket->user_get = json_encode($user_arr,true);
-        $redPacket->save();
-        
-        return response([ 'message' => "User ".$user->id." receive ".$amount], 200);
+        return response([ 'Data' => new RedPacketResource($RedPacket), 'message' => 'Create Redpacket successfully'], 200);
     }
 
     /**

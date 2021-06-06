@@ -130,16 +130,10 @@ class RedPacketController extends Controller
             $amount = number_format($redPacket->amount / $redPacket->total_quantity, 2, '.', '');
         }
 
-        $user_arr = !empty(json_decode($redPacket->user_get,true)) ? json_decode($redPacket->user_get,true):[];
-        if(in_array($user->id, $user_arr)) {
-            return response([ 'message' => "User ".$user->id." have taken this red packet"], 200); 
-        } else {
-            array_push($user_arr,$user->id);
-        }
+        $user_arr = json_decode($redPacket->random,true);
 
         $redPacket->amount = $redPacket->amount - $amount;
         $redPacket->total_quantity = $redPacket->total_quantity - 1;
-        $redPacket->user_get = json_encode($user_arr,true);
         $redPacket->save();
         
         return response([ 'message' => "User ".$user->id." receive ".$amount], 200);

@@ -19,8 +19,7 @@ class CreateRedPacketsTable extends Migration
             $table->float('amount', 8, 2)->default('0');
             $table->integer('total_quantity')->default('0');
             $table->boolean('random')->default('0')->comment('0 : no random , 1 : random');
-            $table->json ('user_get')->nullable()->comment('store user_id who get in json format');
-
+            $table->json ('user_get')->nullable();
             $table->timestamps();
 
             $table->index(['user_id']);
